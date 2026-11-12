@@ -36,7 +36,7 @@ TIMEOUT=1  # seconds per port probe
 # --- Method 1: nmap --------------------------------------------------------
 if command -v nmap >/dev/null 2>&1; then
     echo "[*] Scanning $HOST ports $START-$END with nmap..."
-    exec nmap -p "$START-$END" --open -T4 "$HOST"
+    nmap -p "$START-$END" --open -T4 "$HOST" | awk '/^[0-9]+\/tcp/ {sub(/\/.*/, "", $1); print "open  " $1; exit}'
 fi
 
 # --- Method 2: nc ----------------------------------------------------------
@@ -45,8 +45,10 @@ scan_nc() {
     for ((port = START; port <= END; port++)); do
         if nc -z -w "$TIMEOUT" "$HOST" "$port" >/dev/null 2>&1; then
             echo "open  $port"
+            return 0
         fi
     done
+    return 1
 }
 
 # --- Method 3: pure bash /dev/tcp (no dependencies at all) -----------------
@@ -56,8 +58,10 @@ scan_bash() {
         if (exec 3<>"/dev/tcp/$HOST/$port") 2>/dev/null; then
             echo "open  $port"
             exec 3>&- 3<&- 2>/dev/null
+            return 0
         fi
     done
+    return 1
 }
 
 # Bash /dev/tcp exists on Linux and macOS builds of bash.
@@ -72,7 +76,7 @@ else
 fi
 
 echo "[*] Scanning $HOST ports $START-$END ($METHOD, timeout ${TIMEOUT}s)..."
-echo "[*] Open ports:"
+echo "[*] First open port:"
 
 FOUND=0
 while IFS= read -r line; do
