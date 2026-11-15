@@ -5,12 +5,11 @@
 # actually installed everything.
 #
 # Skipped by design:
-#   - Claude Desktop .deb (install-claude-desktop.sh is broken and excluded
+#   - Claude Desktop .deb (claude-desktop.sh is broken and excluded
 #     from the runner)
-#   - office setup (fcitx5-lotus packages, service, and the env vars
-#     written by disable-ibus.sh): its real acceptance is the manual GUI
-#     steps printed by linux-office-setup.sh and disable-ibus.sh, which
-#     no machine check can confirm
+#   - office setup (fcitx5-lotus packages and service): linux-office-setup.sh
+#     is no longer part of the runner; the env vars written by disable-ibus.sh
+#     only take effect after re-login, which no machine check can confirm
 #   - Asyar is optional (install-asyar.sh is not part of the runner), so it
 #     is reported as SKIP when absent, not FAIL
 #
@@ -76,10 +75,10 @@ check_bin "codex (linux-ai.sh)" codex
 check_bin "claude - Claude Code CLI (linux-ai.sh)" claude
 check_bin "zed (linux-ai.sh)" zed
 
-# --- Zalo (install-zalo.sh) ----------------------------------------------------
+# --- Zalo (zalo.sh) ------------------------------------------------------------
 
-check "Gear Lever flatpak (install-zalo.sh)" bash -c 'flatpak list --user | grep -q it.mijorus.gearlever'
-check "Zalo desktop entry (install-zalo.sh)" bash -c "ls \"$HOME/.local/share/applications\" | grep -qi zalo"
+check "Gear Lever flatpak (zalo.sh)" bash -c 'flatpak list --user | grep -q it.mijorus.gearlever'
+check "Zalo desktop entry (zalo.sh)" bash -c "ls \"$HOME/.local/share/applications\" | grep -qi zalo"
 
 # --- Asyar (optional, not part of the runner) ----------------------------------
 
@@ -95,10 +94,8 @@ printf '\n%d passed, %d failed, %d skipped\n' "$PASS" "$FAIL" "$SKIP"
 
 cat <<'EOF'
 
-Manual steps no machine check can confirm (from linux-office-setup.sh / disable-ibus.sh):
-  1. GNOME Tweaks -> Startup Applications -> Add -> Fcitx 5
-  2. Run fcitx5-configtool, move lotus to the active engines column, press Apply
-  3. Log out and log back in so ~/.bash_profile takes effect
+Manual step no machine check can confirm (from disable-ibus.sh):
+  1. Log out and log back in so ~/.bash_profile takes effect
 EOF
 
 [ "$FAIL" -eq 0 ] || exit 1

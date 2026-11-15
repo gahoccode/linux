@@ -10,8 +10,8 @@
 #   ./disable-ibus.sh
 #
 # Stops the ibus-daemon of the current user and appends the six exports to
-# ~/.bash_profile (port them with port-env-vars.sh if you ever switch your
-# login shell to zsh). Safe to re-run: the daemon stop is a no-op when
+# ~/.bash_profile (port-env-vars.sh switches the login shell to zsh and
+# ports them). Safe to re-run: the daemon stop is a no-op when
 # nothing is running, and each export is only written once.
 # No sudo, no prompts.
 #

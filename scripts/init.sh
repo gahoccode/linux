@@ -29,5 +29,5 @@ say "Enabling universe repository (fd-find and friends in dev.sh)"
 sudo add-apt-repository -y universe
 sudo apt-get update
 
-say "Installing libfuse2t64 (AppImage runtime for install-zalo.sh)"
+say "Installing libfuse2t64 (AppImage runtime for zalo.sh)"
 sudo apt-get install -y libfuse2t64

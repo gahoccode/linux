@@ -22,10 +22,9 @@ run init.sh
 run dev.sh
 run linux-ai.sh
 
-run linux-office-setup.sh
 run disable-ibus.sh
 
-run install-zalo.sh
+run zalo.sh
 run verify.sh
 
 printf '\nSetup complete. Log out and back in so the fcitx5 variables and PATH additions take effect.\n'
