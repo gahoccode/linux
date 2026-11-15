@@ -60,6 +60,8 @@ check "nvm (dev.sh)" test -s "$HOME/.nvm/nvm.sh"
 check "node (dev.sh)" bash -c 'command -v node || command -v nodejs'
 check "npm (dev.sh)" command -v npm
 check "cmake (dev.sh)" command -v cmake
+# Ubuntu's bat package ships the binary as batcat (like fd-find -> fdfind)
+check "bat (dev.sh)" command -v batcat
 check "fd-find (dev.sh)" command -v fdfind
 check "jq (dev.sh)" command -v jq
 check "ripgrep (dev.sh)" command -v rg

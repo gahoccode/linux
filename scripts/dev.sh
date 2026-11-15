@@ -9,7 +9,7 @@ if [ ! -t 0 ] && ! sudo -n true 2>/dev/null; then
 fi
 
 echo "Installing dev dependencies"
-sudo apt install build-essential cmake fd-find jq ripgrep zsh openssh-server tmux nodejs npm -y
+sudo apt install build-essential cmake bat fd-find jq ripgrep zsh openssh-server tmux nodejs npm -y
 
 echo "Installing uv..."
 curl -LsSf https://astral.sh/uv/install.sh | sh
